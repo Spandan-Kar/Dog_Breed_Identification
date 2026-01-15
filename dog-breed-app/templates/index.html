@@ -5,97 +5,236 @@
   <title>Dog Breed Classifier</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     /* Base & Background */
     body {
       margin: 0;
       padding: 0;
       font-family: 'Quicksand', sans-serif;
-      background: url('https://www.transparenttextures.com/patterns/skulls.png'), linear-gradient(135deg, #1e3c72, #2a5298);
+      background: url('https://www.transparenttextures.com/patterns/skulls.png'),
+                  radial-gradient(ellipse at center, #1e3c72 0%, #162b56 70%, #0d1a38 100%);
       background-blend-mode: overlay;
       color: #fff;
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Animated background elements */
+    body::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 20% 80%, rgba(255, 119, 140, 0.1) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 20%, rgba(255, 126, 179, 0.1) 0%, transparent 50%);
+      z-index: -1;
     }
 
     .main-box {
       width: 95%;
       max-width: 1500px;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 25px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 10px 50px rgba(0, 0, 0, 0.4);
-      padding: 40px;
+      background: rgba(255, 255, 255, 0.07);
+      border-radius: 30px;
+      backdrop-filter: blur(15px) saturate(180%);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      padding: 50px;
       display: flex;
       justify-content: space-between;
-      gap: 30px;
+      gap: 40px;
       animation: fadeIn 1s ease-in-out;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .main-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(to right, #ff758c, #ff7eb3, #f12711, #f5af19);
+      border-radius: 30px 30px 0 0;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.98); }
-      to { opacity: 1; transform: scale(1); }
+      from { opacity: 0; transform: translateY(20px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
     }
 
     .left-panel, .right-panel {
       flex: 1;
       padding: 30px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .left-panel {
+      justify-content: center;
     }
 
     h1 {
-      font-size: 60px;
+      font-size: 64px;
       font-weight: 700;
-      background: linear-gradient(to right, #ff758c, #ff7eb3);
+      background: linear-gradient(to right, #ff758c, #ff7eb3, #ffd700);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 50px;
+      margin-bottom: 40px;
       transition: all 0.3s ease;
+      position: relative;
+      display: inline-block;
+      text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      line-height: 1.1;
+    }
+
+    h1::after {
+      content: '🐾';
+      position: absolute;
+      right: -60px;
+      top: 0;
+      font-size: 50px;
+      animation: float 3s ease-in-out infinite;
     }
 
     h1:hover {
-      transform: scale(1.05);
-      text-shadow: 0 0 10px #fff;
+      transform: scale(1.03);
+      text-shadow: 0 0 20px rgba(255, 126, 179, 0.4);
+    }
+
+    .upload-area {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 30px;
+      border: 2px dashed rgba(255, 255, 255, 0.3);
+      transition: all 0.3s ease;
+      margin-bottom: 25px;
+    }
+
+    .upload-area:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 126, 179, 0.5);
     }
 
     input[type="file"] {
       padding: 18px;
-      background: #fff;
+      background: rgba(255, 255, 255, 0.95);
       border-radius: 15px;
       border: none;
       width: 100%;
       font-size: 18px;
       font-weight: 600;
       color: #333;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    input[type="file"]:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(255, 126, 179, 0.5), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    input[type="file"]:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .upload-icon {
+      font-size: 40px;
+      margin-bottom: 15px;
+      color: #ff7eb3;
+    }
+
+    .upload-text {
+      font-size: 18px;
+      margin-bottom: 20px;
+      color: rgba(255, 255, 255, 0.8);
     }
 
     button {
       margin-top: 25px;
       width: 100%;
-      padding: 18px;
-      font-size: 20px;
+      padding: 22px;
+      font-size: 22px;
       background: linear-gradient(to right, #f12711, #f5af19);
       color: white;
       border: none;
       border-radius: 15px;
       font-weight: 700;
       transition: all 0.3s ease;
+      box-shadow: 0 8px 20px rgba(241, 39, 17, 0.3);
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to right, #f5af19, #f12711);
+      transition: left 0.5s ease;
+      z-index: -1;
     }
 
     button:hover {
-      background: linear-gradient(to right, #f5af19, #f12711);
-      transform: translateY(-2px);
-      box-shadow: 0 5px 20px rgba(255, 255, 255, 0.3);
+      transform: translateY(-5px);
+      box-shadow: 0 12px 25px rgba(241, 39, 17, 0.4);
+    }
+
+    button:hover::before {
+      left: 0;
+    }
+
+    button i {
+      margin-right: 10px;
     }
 
     .error {
       margin-top: 20px;
-      background: rgba(255, 0, 0, 0.2);
-      padding: 15px;
+      background: rgba(255, 0, 0, 0.15);
+      padding: 18px;
       border-radius: 12px;
       font-weight: 600;
       color: #ffdada;
+      border-left: 4px solid #ff4757;
+      animation: shake 0.5s ease-in-out;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    .image-preview {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 25px;
+      padding: 25px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 30px;
+      transition: all 0.3s ease;
+    }
+
+    .image-preview:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
     }
 
     .image-preview img {
@@ -103,24 +242,41 @@
       height: auto;
       max-height: 450px;
       border-radius: 20px;
-      box-shadow: 0 5px 30px rgba(0, 0, 0, 0.6);
-      transition: 0.3s ease;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      transition: 0.5s ease;
+      object-fit: cover;
     }
 
     .image-preview img:hover {
       transform: scale(1.02);
-      box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
+      box-shadow: 0 0 40px rgba(255, 255, 255, 0.2);
+    }
+
+    .result-box {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 25px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+      margin-top: 20px;
+    }
+
+    .result-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
     }
 
     .result-text {
-      margin-top: 40px;
-      font-size: 42px;
+      font-size: 46px;
       font-weight: bold;
-      background: linear-gradient(to right, #ffd700, #ffb347);
+      background: linear-gradient(to right, #ffd700, #ffb347, #ff7eb3);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
       transition: 0.3s ease;
+      margin-bottom: 15px;
+      line-height: 1.2;
     }
 
     .result-text:hover {
@@ -129,55 +285,235 @@
     }
 
     .confidence {
-      font-size: 24px;
+      font-size: 26px;
       color: #e0e0e0;
       margin-top: 10px;
       text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .confidence-bar {
+      width: 100%;
+      height: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      margin-top: 15px;
+      overflow: hidden;
+    }
+
+    .confidence-fill {
+      height: 100%;
+      background: linear-gradient(to right, #4facfe, #00f2fe);
+      border-radius: 10px;
+      width: 0%;
+      transition: width 1.5s ease-in-out;
+    }
+
+    .breed-icon {
+      font-size: 36px;
+      margin-bottom: 20px;
+      color: #ffb347;
+    }
+
+    /* Loading animation */
+    .loader {
+      display: none;
+      margin: 30px auto;
+      width: 60px;
+      height: 60px;
+      border: 6px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      border-top-color: #ff7eb3;
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Footer note */
+    .footer-note {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.5);
+      font-style: italic;
+    }
+
+    @media screen and (max-width: 1200px) {
+      .main-box {
+        flex-direction: column;
+        padding: 40px;
+        gap: 40px;
+      }
+
+      .left-panel, .right-panel {
+        width: 100%;
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 48px;
+        text-align: center;
+      }
+
+      h1::after {
+        position: relative;
+        right: 0;
+        display: block;
+        margin-top: 10px;
+      }
+
+      .result-text {
+        font-size: 36px;
+      }
     }
 
     @media screen and (max-width: 768px) {
       .main-box {
-        flex-direction: column;
+        padding: 30px 20px;
       }
 
       h1 {
-        font-size: 40px;
+        font-size: 36px;
       }
 
       .result-text {
-        font-size: 30px;
+        font-size: 28px;
+      }
+
+      button {
+        padding: 18px;
+        font-size: 20px;
       }
     }
   </style>
 </head>
 <body>
 <div class="main-box">
-  <!-- LEFT -->
+  <!-- LEFT PANEL -->
   <div class="left-panel">
-    <h1>🐾 Dog Breed Classifier</h1>
-    <form method="POST" enctype="multipart/form-data">
-      <input type="file" name="file" accept="image/*" required>
-      <button type="submit">Upload & Predict</button>
-    </form>
+    <h1>Dog Breed Classifier</h1>
+
+    <div class="upload-area text-center">
+      <div class="upload-icon">
+        <i class="fas fa-cloud-upload-alt"></i>
+      </div>
+      <div class="upload-text">Upload a clear photo of a dog to identify its breed</div>
+
+      <form method="POST" enctype="multipart/form-data" id="upload-form">
+        <input type="file" name="file" accept="image/*" required id="file-input">
+        <button type="submit" id="submit-btn">
+          <i class="fas fa-paw"></i> Upload & Predict
+        </button>
+      </form>
+
+      <!-- Loader for submit button -->
+      <div class="loader" id="form-loader"></div>
+    </div>
 
     {% if error %}
-      <div class="error">{{ error }}</div>
+      <div class="error">
+        <i class="fas fa-exclamation-circle"></i> {{ error }}
+      </div>
     {% endif %}
+
+    <div class="footer-note">
+      Supports common dog breeds. For best results, use clear, well-lit images.
+    </div>
   </div>
 
-  <!-- RIGHT -->
+  <!-- RIGHT PANEL -->
   <div class="right-panel text-center">
     {% if uploaded_image %}
       <div class="image-preview mb-4">
-        <img src="{{ url_for('static', filename='uploads/' + uploaded_image) }}" alt="Dog Image">
+        <img src="{{ url_for('static', filename='uploads/' + uploaded_image) }}" alt="Dog Image" id="preview-image">
+      </div>
+    {% else %}
+      <div class="image-preview mb-4" style="display: flex; align-items: center; justify-content: center; min-height: 300px;">
+        <div style="color: rgba(255,255,255,0.5);">
+          <i class="fas fa-dog" style="font-size: 80px; margin-bottom: 20px;"></i>
+          <p style="font-size: 20px;">Your dog image will appear here</p>
+        </div>
       </div>
     {% endif %}
 
     {% if prediction %}
-      <div class="result-text">Breed: {{ prediction.breed }}</div>
-      <div class="confidence">Confidence: {{ prediction.confidence }}%</div>
+      <div class="result-box">
+        <div class="breed-icon">
+          <i class="fas fa-award"></i>
+        </div>
+        <div class="result-text">Breed: {{ prediction.breed }}</div>
+        <div class="confidence">
+          <i class="fas fa-chart-line"></i> Confidence: {{ prediction.confidence }}%
+        </div>
+        <div class="confidence-bar">
+          <div class="confidence-fill" style="width: {{ prediction.confidence }}%;"></div>
+        </div>
+      </div>
+    {% else %}
+      <div class="result-box" style="min-height: 200px; display: flex; align-items: center; justify-content: center;">
+        <div style="color: rgba(255,255,255,0.5);">
+          <i class="fas fa-search" style="font-size: 50px; margin-bottom: 15px;"></i>
+          <p style="font-size: 22px;">Prediction results will appear here</p>
+        </div>
+      </div>
     {% endif %}
   </div>
 </div>
+
+<script>
+  // File input preview
+  const fileInput = document.getElementById('file-input');
+  const previewImage = document.getElementById('preview-image');
+  const submitBtn = document.getElementById('submit-btn');
+  const formLoader = document.getElementById('form-loader');
+  const uploadForm = document.getElementById('upload-form');
+
+  // Show image preview when a file is selected
+  fileInput.addEventListener('change', function() {
+    if (this.files && this.files[0]) {
+      const reader = new FileReader();
+
+      reader.onload = function(e) {
+        // If there's already a preview image, update it
+        if (previewImage) {
+          previewImage.src = e.target.result;
+        } else {
+          // Otherwise create a new preview
+          const previewContainer = document.querySelector('.image-preview');
+          if (previewContainer) {
+            previewContainer.innerHTML = `<img src="${e.target.result}" alt="Dog Image" id="preview-image" style="width:100%;height:auto;max-height:450px;border-radius:20px;">`;
+          }
+        }
+      }
+
+      reader.readAsDataURL(this.files[0]);
+    }
+  });
+
+  // Show loading animation when form is submitted
+  uploadForm.addEventListener('submit', function() {
+    submitBtn.style.display = 'none';
+    formLoader.style.display = 'block';
+  });
+
+  // Animate confidence bar on page load if prediction exists
+  document.addEventListener('DOMContentLoaded', function() {
+    const confidenceFill = document.querySelector('.confidence-fill');
+    if (confidenceFill) {
+      // Reset width to 0 then animate to actual value
+      const targetWidth = confidenceFill.style.width;
+      confidenceFill.style.width = '0%';
+
+      setTimeout(() => {
+        confidenceFill.style.width = targetWidth;
+      }, 300);
+    }
+  });
+</script>
 </body>
 </html>
